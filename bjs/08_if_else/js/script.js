@@ -2,13 +2,15 @@
 //
 // Роман Волков
 // Мой GutHub https://github.com/rwolfin
+// t.me/roman_volkow
 //
 //
 
 
-//все 5 переменных через запятую в одну. На мой взгляд это правильно
+//все 5 переменных через запятую в одну.
 let minValue, maxValue, answerNumber, orderNumber, gameRun;
 
+//Можно еще было использовать query.Selector но getElementById на мой взгляд изящней :) в данных переменных
 
 const orderNumberField = document.getElementById('orderNumberField');
 const answerField = document.getElementById('answerField');
@@ -57,10 +59,14 @@ const numbersToWords = {
 
 // Эта функция которая решает задачу по преобразованию угаданного числа в текст, пример - 99 = "девяносто девять" 
 function getNumberInWords(number) {
+    // Проверяем является ли число отрицательным
+    if (number < 0) {
+        return "минус " + getNumberInWords(Math.abs(number)); // рекурсия для положительного значения числа
+    }
     if (numbersToWords[number]) {
         return numbersToWords[number];
     }
-// Обработка чисел меньше 100
+    // Обработка чисел меньше 100
     if (number < 100) {
         return numbersToWords[Math.floor(number / 10) * 10] + (number % 10 > 0 ? ' ' + numbersToWords[number % 10] : '');
     }
@@ -81,50 +87,61 @@ function getNumberInWords(number) {
     return String(number);
 }
 
+
+// Эта функция которая формирует случайную фразу из массива questionPhrases
 function getRandomQuestionPhrase() {
     const randomIndex = Math.floor(Math.random() * questionPhrases.length);
     const numberText = getNumberInWords(answerNumber);
-
     return questionPhrases[randomIndex].replace("{number}", numberText);
 }
 
+// А эта функция формерует фразу из массива successPharases - когда число угаданно 
 function getRandomSuccessPhrase() {
     const randomIndex = Math.floor(Math.random() * successPhrases.length);
     return successPhrases[randomIndex];
 }
 
+
+//Функция которая выполняется при нажатии на кнопку "Начать игру"
+
 function startGame() {
   
+    //Получаем максимальное или минимальное значение parseInt() делает из строк числа
+    // Если мы введем текст вместо числа то мы получим NaN, по умолчанию используем 0 и 100 
     minValue = parseInt(minValueInput.value) || 0;
     maxValue = parseInt(maxValueInput.value) || 100;
 
+    // делаем ограничение от -999 до 999 с помощью тернарных опператоров
     minValue = minValue > 999 ? 999 : (minValue < -999 ? -999 : minValue);
     maxValue = maxValue > 999 ? 999 : (maxValue < -999 ? -999 : maxValue);
     
-     minValueInput.value = minValue;
-     maxValueInput.value = maxValue;
+    minValueInput.value = minValue;
+    maxValueInput.value = maxValue;
 
-
+    //А здесь Вычисляется середина диапазона (minValue и maxValue) и сохраняется в answerNumber. 
+    //Это начальное число, которое будет пытаться угадать компьютер. Math.floor округляет значение до ближайшего меньшего целого числа.
     answerNumber = Math.floor((minValue + maxValue) / 2);
     orderNumber = 1;
     gameRun = true;
 
+    //тут обновляем интерфейс
     orderNumberField.innerText = orderNumber;
     answerField.innerText = getRandomQuestionPhrase();
     gameArea.classList.remove("collapse");
     startAlert.classList.remove("show");
-   btnRetry.classList.add("collapse")
+    btnRetry.classList.add("collapse")
 
 }
 
-btnStart.addEventListener('click', startGame);
-btnRetry.addEventListener('click', function () {
+    btnStart.addEventListener('click', startGame);
+    btnRetry.addEventListener('click', function () {
     gameArea.classList.add("collapse");
     startAlert.classList.add("show");
     btnRetry.classList.add("collapse");
     
 });
 
+//Кнопка Меньше
 btnLess.addEventListener('click', function () {
     if (gameRun) {
         if (minValue === maxValue) {
@@ -141,6 +158,7 @@ btnLess.addEventListener('click', function () {
     }
 });
 
+//Кнопка Больше
 btnOver.addEventListener('click', function () {
      if (gameRun) {
         if (minValue === maxValue) {
@@ -157,7 +175,7 @@ btnOver.addEventListener('click', function () {
     }
 });
 
-
+//Кнопка верно
 btnEqual.addEventListener('click', function () {
     if (gameRun) {
         answerField.innerText = getRandomSuccessPhrase();
