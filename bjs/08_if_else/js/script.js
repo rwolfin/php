@@ -29,7 +29,7 @@ const questionPhrases = [
     "Наверное, это число {number}?",
     "Может быть, это {number}?",
     "Хмм.. неужели это {number}",
-    "Я знаю! это число {number}",
+    "Да ты издеваешься ! {number}",
 ];
 
 //И это тоже лучше в массив. Можно добавить очень много фраз - это что сделает игру интереснее :) 
@@ -66,6 +66,7 @@ function getNumberInWords(number) {
     const hundreds = Math.floor(number / 100);
     const remaining = number % 100;
     let result = (hundreds > 1 ? numbersToWords[hundreds] + ' сто' : numbersToWords[100]);
+
 
     if (remaining > 0){
           result +=  ' '+ getNumberInWords(remaining);

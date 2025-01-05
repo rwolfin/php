@@ -1,42 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--У нас сайт на русском, это ошибка если будет атрибут lang со значением en-->
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Угадайка</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра "Угадай число"</title>
+    <!--Скачаем bootstrap и добавим его в наш проект-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--Мои кастомные стили которые отвечают за фон сайта-->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="container">
-    <div class="row game-card align-items-center">
-        <div class="col col-md-4 offset-md-4">
-            <div class="card text-center">
-                <div class="card-header">
-                    <p class="m-0">Вопрос №<span id="orderNumberField">5</span></p>
-                </div>
-                <div class="card-body">
-                    <div class="row no-gutters">
-                        <div class="col">
-                            <h3 class="card-title m-0"><span id="answerField">Вы загадали число 5?</span></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="btn-group">
-                        <button class="btn btn-info" id="btnLess">&#129047;<br>меньше</button>
-                        <button class="btn btn-success btn-lg" id="btnEqual">Верно!</button>
-                        <button class="btn btn-info" id="btnOver">больше<br>&#129045;</button>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-link" id="btnRetry">Заново</button>
-                </div>
-            </div>
+    <div class="container mt-5">
+
+        <h1 class="text-center mb-4">Игра "Угадай число"</h1>
+         <div class="alert alert-info collapse show" id="start-game-alert">
+            Введите минимальное и максимальное числа.
         </div>
+        <!--Модальные окна это зло! для удобства пользователя добавим все формы прямо в index.html-->
+        <div class="form-group">
+            <label for="min-value">Минимальное число:</label>
+            <input type="number" class="form-control" id="min-value" value="0">
+        </div>
+        <div class="form-group">
+            <label for="max-value">Максимальное число:</label>
+            <input type="number" class="form-control" id="max-value" value="100">
+        </div>
+           
+        <div class="form-group">
+             <button type="button" class="btn btn-success" id="btnStart">Начать игру</button>
+        </div>
+      
+            <div class="card mb-3 collapse " id="game-area">
+            <div class="card-body">
+            <h5 class="card-title">Вопрос #<span id="orderNumberField">1</span></h5>
+            <p class="card-text" id="answerField">Вы загадали число 50?</p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" id="btnLess">Меньше</button>
+                <button class="btn btn-success" id="btnEqual">Верно!</button>
+                <button class="btn btn-secondary" id="btnOver">Больше</button>
+             </div>
+        </div>
+         </div>
+          <div class="text-center">
+           <button class="btn btn-primary mt-3 collapse" id="btnRetry">Заново</button>
+          </div>
+           
     </div>
-</div>
-<script src="script.js"></script>
+    <!--Добавим js в папку где будут хранится все скрипты по js-->
+    <script src="js/script.js"></script>
 </body>
 </html>
