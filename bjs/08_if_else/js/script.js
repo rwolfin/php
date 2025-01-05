@@ -1,7 +1,7 @@
 //
 //
 // Роман Волков
-// мой GutHub https://github.com/rwolfin
+// Мой GutHub https://github.com/rwolfin
 //
 //
 
@@ -24,12 +24,13 @@ const minValueInput = document.getElementById('min-value');
 const maxValueInput = document.getElementById('max-value');
 
 //Сообщения лучше добавить в массив 
+//Сюда тоже можно добавить различные смайлики
 const questionPhrases = [
     "Да это легко! Ты загадал число {number}?",
     "Наверное, это число {number}?",
     "Может быть, это {number}?",
     "Хмм.. неужели это {number}",
-    "Да ты издеваешься ! {number}",
+    "Я знаю, это ! {number}",
 ];
 
 //И это тоже лучше в массив. Можно добавить очень много фраз - это что сделает игру интереснее :) 
@@ -48,30 +49,34 @@ const numbersToWords = {
     10: 'десять', 11: 'одиннадцать', 12: 'двенадцать', 13: 'тринадцать', 14: 'четырнадцать',
     15: 'пятнадцать', 16: 'шестнадцать', 17: 'семнадцать', 18: 'восемнадцать', 19: 'девятнадцать',
     20: 'двадцать', 30: 'тридцать', 40: 'сорок', 50: 'пятьдесят', 60: 'шестьдесят',
-    70: 'семьдесят', 80: 'восемьдесят', 90: 'девяносто', 100: 'сто',
+    70: 'семьдесят', 80: 'восемьдесят', 90: 'девяносто', 100: 'сто', 200: 'двести',
+    300: 'триста', 400: 'четыреста', 500: 'пятьсот', 600: 'шестьсот', 700: 'семьсот',
+    800: 'восемьсот', 900: 'девятьсот'
 };
 
 
-
-
+// Эта функция которая решает задачу по преобразованию угаданного числа в текст, пример - 99 = "девяносто девять" 
 function getNumberInWords(number) {
     if (numbersToWords[number]) {
         return numbersToWords[number];
     }
+// Обработка чисел меньше 100
     if (number < 100) {
         return numbersToWords[Math.floor(number / 10) * 10] + (number % 10 > 0 ? ' ' + numbersToWords[number % 10] : '');
     }
-    if (number < 1000) {
-    
-    const hundreds = Math.floor(number / 100);
-    const remaining = number % 100;
-    let result = (hundreds > 1 ? numbersToWords[hundreds] + ' сто' : numbersToWords[100]);
+
+// Обработка чисел меньше 1000
+//Этот блок кода выполняется если число меньше 1000 но больше или равно 100 :)
+      if (number < 1000) {
+        const hundreds = Math.floor(number / 100) * 100;
+        const remaining = number % 100;
+        let result = numbersToWords[hundreds];
 
 
-    if (remaining > 0){
-          result +=  ' '+ getNumberInWords(remaining);
-    }
-    return result;
+        if (remaining > 0) {
+            result += ' ' + getNumberInWords(remaining);
+        }
+        return result;
     }
     return String(number);
 }
@@ -82,7 +87,6 @@ function getRandomQuestionPhrase() {
 
     return questionPhrases[randomIndex].replace("{number}", numberText);
 }
-
 
 function getRandomSuccessPhrase() {
     const randomIndex = Math.floor(Math.random() * successPhrases.length);
