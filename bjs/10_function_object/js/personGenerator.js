@@ -50,37 +50,7 @@ const personGenerator = {
             "id_10": "Дарья"
         }
     }`,
-     middleNameMaleJson: `{
-        "count": 10,
-        "list": {
-            "id_1": "Александрович",
-             "id_2": "Максимович",
-            "id_3": "Иванович",
-            "id_4": "Артемович",
-            "id_5": "Дмитриевич",
-            "id_6": "Никитич",
-            "id_7": "Михайлович",
-            "id_8": "Даниилович",
-            "id_9": "Егорович",
-            "id_10": "Андреевич"
-        }
-    }`,
 
-     middleNameFemaleJson: `{
-        "count": 10,
-        "list": {
-           "id_1": "Александровна",
-             "id_2": "Максимовна",
-            "id_3": "Ивановна",
-            "id_4": "Артемовна",
-            "id_5": "Дмитриевна",
-            "id_6": "Никитична",
-            "id_7": "Михайловна",
-            "id_8": "Данииловна",
-            "id_9": "Егоровна",
-            "id_10": "Андреевна"
-        }
-    }`,
      professionMaleJson: `{
         "count": 10,
         "list": {
@@ -148,12 +118,77 @@ const personGenerator = {
         }
     },
 
-    randomMiddleName: function(gender) {
-           if (gender === this.GENDER_MALE) {
-            return this.randomValue(this.middleNameMaleJson);
+    generateMiddleNameFromFirstName: function (firstName, gender) {
+        let middleName = "";
+        firstName = firstName.toLowerCase();
+
+        if (gender === this.GENDER_MALE) {
+            if (firstName.endsWith('а')) {
+                 if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
+                       middleName = firstName.slice(0, -1) + "ич";
+                   }
+                   else {
+                       middleName = firstName.slice(0, -1) + "ович"
+                   }
+            }else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
+              middleName = firstName + "евич";
+           }else if (firstName.endsWith('ь'))
+           {
+               middleName = firstName.slice(0, -1) + "евич";
+           }
+           else if (firstName.endsWith('й'))
+           {
+               middleName = firstName.slice(0, -1) + "евич";
+           }
+           else if (firstName.endsWith('е'))
+           {
+               middleName = firstName.slice(0, -1) + "евич";
+           }
+           else if(firstName.endsWith('и'))
+           {
+             middleName = firstName + "евич";
+           }
+
+            else {
+                 middleName = firstName + "ович";
+            }
         } else {
-            return this.randomValue(this.middleNameFemaleJson);
+          if (firstName.endsWith('а')) {
+                if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
+                       middleName = firstName.slice(0, -1) + "ична";
+                   }
+                    else {
+                        middleName = firstName.slice(0, -1) + "овна"
+                   }
+            }
+          else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
+                middleName = firstName + "евна";
+            }else if (firstName.endsWith('ь'))
+           {
+               middleName = firstName.slice(0, -1) + "евна";
+           }
+          else if (firstName.endsWith('й'))
+          {
+              middleName = firstName.slice(0, -1) + "евна";
+          }
+            else if (firstName.endsWith('е'))
+           {
+               middleName = firstName.slice(0, -1) + "евна";
+           }
+           else if(firstName.endsWith('и'))
+            {
+               middleName = firstName + "евна";
+           }
+              else {
+                middleName = firstName + "овна";
+            }
         }
+
+
+        return middleName.charAt(0).toUpperCase() + middleName.slice(1);
+    },
+    randomMiddleName: function(firstName,gender) {
+           return  this.generateMiddleNameFromFirstName(firstName,gender);
     },
 
      randomProfession: function(gender) {
@@ -206,7 +241,7 @@ const personGenerator = {
         this.person = {};
         this.person.gender = this.randomGender();
         this.person.firstName = this.randomFirstName(this.person.gender);
-        this.person.middleName = this.randomMiddleName(this.person.gender);
+        this.person.middleName = this.randomMiddleName(this.person.firstName, this.person.gender);
         this.person.profession = this.randomProfession(this.person.gender);
         this.person.surname = this.randomSurname(this.person.gender);
         this.person.birthYear = this.randomBirthYear();
