@@ -1,4 +1,3 @@
-
 const personGenerator = {
     surnameJson: `{  
         "count": 15,
@@ -50,7 +49,6 @@ const personGenerator = {
             "id_10": "Дарья"
         }
     }`,
-
      professionMaleJson: `{
         "count": 10,
         "list": {
@@ -118,7 +116,7 @@ const personGenerator = {
         }
     },
 
-    generateMiddleNameFromFirstName: function (firstName, gender) {
+     generateMiddleNameFromFirstName: function (firstName, gender) {
         let middleName = "";
         firstName = firstName.toLowerCase();
 
@@ -148,42 +146,55 @@ const personGenerator = {
            {
              middleName = firstName + "евич";
            }
-
             else {
                  middleName = firstName + "ович";
             }
         } else {
-          if (firstName.endsWith('а')) {
-                if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
+            if (firstName === "виктория"){
+                middleName = "викторовна";
+            }
+            else if (firstName === "дарья"){
+                 middleName = "дарьевна";
+             }
+            else if (firstName === "мария"){
+                middleName = "мариевна";
+             }
+            else if (firstName === "софия"){
+                 middleName = "софьевна";
+             }
+             else if (firstName === "анастасия") {
+                middleName = "анастасиевна";
+            }
+           else if (firstName.endsWith('а')) {
+                 if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
                        middleName = firstName.slice(0, -1) + "ична";
                    }
                     else {
-                        middleName = firstName.slice(0, -1) + "овна"
+                        middleName = firstName.slice(0, -1) + "овна";
                    }
             }
-          else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
+            else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
                 middleName = firstName + "евна";
             }else if (firstName.endsWith('ь'))
            {
                middleName = firstName.slice(0, -1) + "евна";
            }
-          else if (firstName.endsWith('й'))
-          {
-              middleName = firstName.slice(0, -1) + "евна";
-          }
-            else if (firstName.endsWith('е'))
-           {
-               middleName = firstName.slice(0, -1) + "евна";
-           }
-           else if(firstName.endsWith('и'))
+            else if (firstName.endsWith('й'))
             {
-               middleName = firstName + "евна";
-           }
+                middleName = firstName.slice(0, -1) + "евна";
+            }
+             else if (firstName.endsWith('е'))
+            {
+                middleName = firstName.slice(0, -1) + "евна";
+            }
+            else if(firstName.endsWith('и'))
+            {
+                middleName = firstName + "евна";
+            }
               else {
                 middleName = firstName + "овна";
             }
         }
-
 
         return middleName.charAt(0).toUpperCase() + middleName.slice(1);
     },
