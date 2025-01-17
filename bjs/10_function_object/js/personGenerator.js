@@ -1,3 +1,4 @@
+
 const personGenerator = {
     surnameJson: `{  
         "count": 15,
@@ -115,71 +116,54 @@ const personGenerator = {
             return this.randomValue(this.firstNameFemaleJson);
         }
     },
-
-     generateMiddleNameFromFirstName: function (firstName, gender) {
+    generateMiddleName: function (firstName, gender) {
         let middleName = "";
         firstName = firstName.toLowerCase();
 
-        if (gender === this.GENDER_MALE) {
+         if (gender === this.GENDER_MALE) {
+             if (firstName.endsWith('а')) {
+                  if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
+                        middleName = firstName.slice(0, -1) + "ич";
+                    }
+                    else {
+                        middleName = firstName.slice(0, -1) + "ович"
+                    }
+             }else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
+               middleName = firstName + "евич";
+            }else if (firstName.endsWith('ь'))
+            {
+                middleName = firstName.slice(0, -1) + "евич";
+            }
+            else if (firstName.endsWith('й'))
+            {
+                middleName = firstName.slice(0, -1) + "евич";
+            }
+            else if (firstName.endsWith('е'))
+            {
+                middleName = firstName.slice(0, -1) + "евич";
+            }
+             else if(firstName.endsWith('и'))
+            {
+                middleName = firstName + "евич";
+            }
+             else {
+                  middleName = firstName + "ович";
+            }
+         } else{
             if (firstName.endsWith('а')) {
-                 if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
-                       middleName = firstName.slice(0, -1) + "ич";
-                   }
-                   else {
-                       middleName = firstName.slice(0, -1) + "ович"
-                   }
-            }else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
-              middleName = firstName + "евич";
-           }else if (firstName.endsWith('ь'))
-           {
-               middleName = firstName.slice(0, -1) + "евич";
-           }
-           else if (firstName.endsWith('й'))
-           {
-               middleName = firstName.slice(0, -1) + "евич";
-           }
-           else if (firstName.endsWith('е'))
-           {
-               middleName = firstName.slice(0, -1) + "евич";
-           }
-           else if(firstName.endsWith('и'))
-           {
-             middleName = firstName + "евич";
-           }
-            else {
-                 middleName = firstName + "ович";
-            }
-        } else {
-            if (firstName === "виктория"){
-                middleName = "викторовна";
-            }
-            else if (firstName === "дарья"){
-                 middleName = "дарьевна";
-             }
-            else if (firstName === "мария"){
-                middleName = "мариевна";
-             }
-            else if (firstName === "софия"){
-                 middleName = "софьевна";
-             }
-             else if (firstName === "анастасия") {
-                middleName = "анастасиевна";
-            }
-           else if (firstName.endsWith('а')) {
-                 if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
-                       middleName = firstName.slice(0, -1) + "ична";
-                   }
+                  if(firstName === "никита" || firstName === "савва" || firstName === "мина" ) {
+                        middleName = firstName.slice(0, -1) + "ична";
+                    }
                     else {
                         middleName = firstName.slice(0, -1) + "овна";
-                   }
-            }
-            else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
-                middleName = firstName + "евна";
+                    }
+             }else if (firstName.endsWith('ж') || firstName.endsWith('ш') || firstName.endsWith('ч') || firstName.endsWith('щ') || firstName.endsWith('ц')) {
+               middleName = firstName + "евна";
             }else if (firstName.endsWith('ь'))
-           {
-               middleName = firstName.slice(0, -1) + "евна";
-           }
-            else if (firstName.endsWith('й'))
+            {
+                middleName = firstName.slice(0, -1) + "евна";
+            }
+             else if (firstName.endsWith('й'))
             {
                 middleName = firstName.slice(0, -1) + "евна";
             }
@@ -187,30 +171,28 @@ const personGenerator = {
             {
                 middleName = firstName.slice(0, -1) + "евна";
             }
-            else if(firstName.endsWith('и'))
-            {
-                middleName = firstName + "евна";
-            }
-              else {
-                middleName = firstName + "овна";
-            }
-        }
-
+             else if(firstName.endsWith('и'))
+             {
+                 middleName = firstName + "евна";
+             }
+               else {
+                 middleName = firstName + "овна";
+               }
+         }
+         
         return middleName.charAt(0).toUpperCase() + middleName.slice(1);
     },
-    randomMiddleName: function(firstName,gender) {
-           return  this.generateMiddleNameFromFirstName(firstName,gender);
+    randomMiddleName: function(gender) {
+        const maleName = this.randomValue(this.firstNameMaleJson);
+        return this.generateMiddleName(maleName,gender);
     },
-
-     randomProfession: function(gender) {
+    randomProfession: function(gender) {
            if (gender === this.GENDER_MALE) {
             return this.randomValue(this.professionMaleJson);
         } else {
             return this.randomValue(this.professionFemaleJson);
         }
     },
-
-
     randomSurname: function(gender) {
           const surname = this.randomValue(this.surnameJson);
           if (gender === this.GENDER_FEMALE)
@@ -222,15 +204,12 @@ const personGenerator = {
           }
 
     },
-
     randomGender: function() {
        return this.randomIntNumber(1,0) === 1 ? this.GENDER_MALE : this.GENDER_FEMALE;
-
     },
      randomBirthYear: function() {
           return this.randomIntNumber(2000,1950)
     },
-
     randomMonth: function(){
         return this.randomValue(this.monthJson);
     },
@@ -245,20 +224,16 @@ const personGenerator = {
             return this.randomIntNumber(31, 1);
         }
     },
-
-
-
     getPerson: function () {
         this.person = {};
         this.person.gender = this.randomGender();
         this.person.firstName = this.randomFirstName(this.person.gender);
-        this.person.middleName = this.randomMiddleName(this.person.firstName, this.person.gender);
+        this.person.middleName = this.randomMiddleName(this.person.gender);
         this.person.profession = this.randomProfession(this.person.gender);
         this.person.surname = this.randomSurname(this.person.gender);
         this.person.birthYear = this.randomBirthYear();
         this.person.birthMonth = this.randomMonth();
         this.person.birthDay = this.randomDay(this.person.birthMonth);
-
         return this.person;
     }
 };
